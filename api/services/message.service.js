@@ -16,27 +16,6 @@ export const createMessage = async (dataParams) => {
   }
 };
 
-//get all the messages with pagination
-export const getAllMessages = async (page = 1, limit = 10) => {
-  try {
-    const offset = (page - 1) * limit;
-
-    const messages = await Message.findAndCountAll({
-      limit,
-      offset,
-    });
-
-    return {
-      totalItems: messages.count,
-      totalPages: Math.ceil(messages.count / limit),
-      currentPage: page,
-      messages: messages.rows,
-    };
-  } catch (error) {
-    throw error.message;
-  }
-};
-
 //get a message by message ID
 export const getMessageById = async (messageId) => {
   try {
@@ -47,6 +26,27 @@ export const getMessageById = async (messageId) => {
     });
 
     return message;
+  } catch (error) {
+    throw error.message;
+  }
+};
+
+//get all the messages with pagination
+export const getAllMessages = async ({ page = 1, limit = 10 }) => {
+  try {
+    const offset = (page - 1) * parseInt(limit);
+
+    const messages = await Message.findAndCountAll({
+      limit: parseInt(limit),
+      offset,
+    });
+
+    return {
+      totalItems: messages.count,
+      totalPages: Math.ceil(messages.count / limit),
+      currentPage: page,
+      messages: messages.rows,
+    };
   } catch (error) {
     throw error.message;
   }
