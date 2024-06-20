@@ -20,6 +20,7 @@ export const getAllMessages = async (req, res) => {
 
 export const getMessageById = async (req, res) => {
   try {
+    const id = req.params.messageId;
     const results = await messageService.getMessageById(id);
     res.send({ message: "success", body: results });
   } catch (error) {
